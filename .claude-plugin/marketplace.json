@@ -1,0 +1,19 @@
+{
+  "name": "novalink",
+  "owner": {
+    "name": "Novalink",
+    "url": "https://novalink.live"
+  },
+  "metadata": {
+    "description": "Novalink plugins for Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "novalink",
+      "source": "./",
+      "description": "The Novalink MCP server and the /novalink-workflows skill, for building AI workflows from Claude Code.",
+      "version": "0.1.1",
+      "category": "development"
+    }
+  ]
+}

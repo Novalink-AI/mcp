@@ -1,0 +1,29 @@
+name: Release
+
+# bump the version in package.json, src/constants.ts and .claude-plugin/*.json, then push a tag such as v0.1.2
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  id-token: write # npm provenance and trusted publishing
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - name: Tag matches the package version
+        run: test "v$(node -p 'require("./package.json").version')" = "${GITHUB_REF_NAME}"
+      - run: npm install -g npm@latest # trusted publishing needs npm 11.5 or newer
+      - run: npm ci
+      - run: npm publish --provenance --access public
+        env:
+          # empty when trusted publishing is set up on npmjs.com; then OIDC is used instead
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,51 @@
+{
+  "name": "@novalinkai/mcp",
+  "version": "0.1.1",
+  "description": "Connect Claude Code, Cursor, Antigravity and other coding agents to Novalink, so they can plan, build and integrate workflows.",
+  "keywords": [
+    "novalink",
+    "mcp",
+    "model-context-protocol",
+    "claude-code",
+    "cursor",
+    "antigravity",
+    "workflows",
+    "ai-agents"
+  ],
+  "homepage": "https://github.com/Novalink-AI/mcp#readme",
+  "bugs": {
+    "url": "https://github.com/Novalink-AI/mcp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Novalink-AI/mcp.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "novalink-mcp": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "skills"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
