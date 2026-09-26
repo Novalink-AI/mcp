@@ -1,4 +1,4 @@
-import { spawn, spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { delimiter, join, relative } from "node:path";
@@ -7,6 +7,7 @@ import { parseArgs } from "node:util";
 
 import { type AuthDeps, TokenStore, defaultStorePath, login, logout } from "./auth.js";
 import { serve } from "./bridge.js";
+import { openBrowser } from "./browser.js";
 import { CLIENTS, CLIENT_IDS, type Client, type Place, type Scope, type Step, findClient } from "./clients.js";
 import { DOCS_URL, PACKAGE, SERVER_NAME, VERSION, log, serverUrl } from "./constants.js";
 import { ConfigError, readJson, remove, withServer, withoutServer, writeJson, writeText } from "./files.js";
@@ -39,20 +40,6 @@ function onPath(bin: string): boolean {
   return (process.env.PATH ?? "")
     .split(delimiter)
     .some((dir) => dir && extensions.some((extension) => existsSync(join(dir, bin + extension))));
-}
-
-function openBrowser(url: string): void {
-  const [command, args] =
-    process.platform === "darwin"
-      ? ["open", [url]]
-      : process.platform === "win32"
-        ? ["cmd", ["/c", "start", "", url.replace(/&/g, "^&")]]
-        : ["xdg-open", [url]];
-  try {
-    spawn(command, args as string[], { stdio: "ignore", detached: true }).on("error", () => undefined).unref();
-  } catch {
-    // the URL is printed as well
-  }
 }
 
 function authDeps(): AuthDeps {

@@ -4,7 +4,7 @@ import { createServer } from "node:http";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 
-import { VERSION } from "./constants.js";
+import { VERSION, checkUrl } from "./constants.js";
 
 export interface Tokens {
   clientId?: string;
@@ -96,7 +96,9 @@ export async function discover(url: string, fetchFn: typeof fetch): Promise<Meta
     `${resource.origin}/.well-known/oauth-protected-resource`,
   ]);
   const servers = prm?.authorization_servers;
-  const issuer = new URL(Array.isArray(servers) && typeof servers[0] === "string" ? servers[0] : resource.origin);
+  const issuer = new URL(
+    checkUrl(Array.isArray(servers) && typeof servers[0] === "string" ? servers[0] : resource.origin, "The authorization server"),
+  );
   const issuerPath = issuer.pathname === "/" ? "" : issuer.pathname.replace(/\/$/, "");
   const metadata = await firstJson(fetchFn, [
     `${issuer.origin}/.well-known/oauth-authorization-server${issuerPath}`,
@@ -105,6 +107,11 @@ export async function discover(url: string, fetchFn: typeof fetch): Promise<Meta
   ]);
   if (!metadata?.authorization_endpoint || !metadata.token_endpoint) {
     throw new Error(`Could not find the sign-in endpoints for ${url}. Check the URL, or that the server is up.`);
+  }
+  // the server's answer decides where tokens go and what the browser opens, so it gets the same checks as the URL itself
+  for (const key of ["authorization_endpoint", "token_endpoint", "registration_endpoint", "revocation_endpoint"]) {
+    const value = metadata[key];
+    if (value !== undefined) checkUrl(String(value), `The server's ${key}`);
   }
   return metadata as unknown as Metadata;
 }

@@ -12,7 +12,7 @@
       "name": "novalink",
       "source": "./",
       "description": "The Novalink MCP server and the /novalink-workflows skill, for building AI workflows from Claude Code.",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "category": "development"
     }
   ]

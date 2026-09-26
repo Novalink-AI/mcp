@@ -239,7 +239,7 @@ To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
 **The agent reports a missing permission.** Reconnect Novalink from your editor and grant the scope named in the message. With the bridge, run `npx @novalinkai/mcp logout`, then `login`.
 
-**Connecting to a local or self-hosted deployment.** Set `NOVALINK_MCP_URL`, or pass `--url` to `install`.
+**Connecting to a local or self-hosted deployment.** Set `NOVALINK_MCP_URL`, or pass `--url` to `install`. Server URLs must use https; plain http is accepted only for `localhost`, so tokens are never sent unencrypted.
 
 ## Development
 
