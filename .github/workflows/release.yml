@@ -18,7 +18,8 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
-          cache: npm
+          # no dependency cache in the job that publishes, so a poisoned cache cannot reach a release
+          package-manager-cache: false
       - name: Tag matches the package version
         run: test "v$(node -p 'require("./package.json").version')" = "${GITHUB_REF_NAME}"
       - run: npm install -g npm@11.20.0 # pinned: this job can publish; trusted publishing needs 11.5 or newer
