@@ -20,7 +20,7 @@ function fakeServer(calls: string[]): typeof fetch {
     }
     if (url === "https://api.example/oauth/token") {
       const form = new URLSearchParams(String(init?.body));
-      if (form.get("refresh_token") === "nvr_old") return json({ access_token: "nvo_new", refresh_token: "nvr_new", expires_in: 3600 });
+      if (form.get("refresh_token") === "wfr_old") return json({ access_token: "wfa_new", refresh_token: "wfr_new", expires_in: 3600 });
       return json({ error: "invalid_grant" }, 400);
     }
     return json({}, 404);
@@ -28,7 +28,7 @@ function fakeServer(calls: string[]): typeof fetch {
 }
 
 const deps = (store: TokenStore, calls: string[]): AuthDeps => ({ fetch: fakeServer(calls), store, open: () => undefined, log: () => undefined });
-const store = () => new TokenStore(join(mkdtempSync(join(tmpdir(), "novalink-")), "credentials.json"));
+const store = () => new TokenStore(join(mkdtempSync(join(tmpdir(), "worfilo-")), "credentials.json"));
 
 describe("auth", () => {
   it("pkce challenges are the S256 of the verifier", () => {
@@ -44,9 +44,9 @@ describe("auth", () => {
 
   it("stores tokens where only this user can read them", () => {
     const tokens = store();
-    tokens.set(URL_, { accessToken: "nvo_x" });
+    tokens.set(URL_, { accessToken: "wfa_x" });
     expect(statSync(tokens.path).mode & 0o777).toBe(0o600);
-    expect(tokens.get(URL_).accessToken).toBe("nvo_x");
+    expect(tokens.get(URL_).accessToken).toBe("wfa_x");
     tokens.delete(URL_);
     expect(tokens.get(URL_)).toEqual({});
   });
@@ -54,18 +54,18 @@ describe("auth", () => {
   it("uses a fresh token as is, and refreshes an expiring one", async () => {
     const tokens = store();
     const calls: string[] = [];
-    tokens.set(URL_, { clientId: "c", accessToken: "nvo_fresh", refreshToken: "nvr_old", expiresAt: Date.now() + 3_600_000 });
-    expect(await accessToken(URL_, deps(tokens, calls))).toBe("nvo_fresh");
+    tokens.set(URL_, { clientId: "c", accessToken: "wfa_fresh", refreshToken: "wfr_old", expiresAt: Date.now() + 3_600_000 });
+    expect(await accessToken(URL_, deps(tokens, calls))).toBe("wfa_fresh");
     expect(calls).toEqual([]);
 
-    tokens.set(URL_, { clientId: "c", accessToken: "nvo_stale", refreshToken: "nvr_old", expiresAt: Date.now() });
-    expect(await accessToken(URL_, deps(tokens, calls))).toBe("nvo_new");
-    expect(tokens.get(URL_).refreshToken).toBe("nvr_new");
+    tokens.set(URL_, { clientId: "c", accessToken: "wfa_stale", refreshToken: "wfr_old", expiresAt: Date.now() });
+    expect(await accessToken(URL_, deps(tokens, calls))).toBe("wfa_new");
+    expect(tokens.get(URL_).refreshToken).toBe("wfr_new");
   });
 
   it("drops dead tokens but keeps the client registration", async () => {
     const tokens = store();
-    tokens.set(URL_, { clientId: "c", accessToken: "nvo_stale", refreshToken: "nvr_revoked", expiresAt: 0 });
+    tokens.set(URL_, { clientId: "c", accessToken: "wfa_stale", refreshToken: "wfr_revoked", expiresAt: 0 });
     expect(await accessToken(URL_, deps(tokens, []))).toBeUndefined();
     expect(tokens.get(URL_)).toEqual({ clientId: "c" });
   });

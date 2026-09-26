@@ -50,7 +50,7 @@ export class Bridge {
         if (message.method === "initialize") this.rememberVersion(answer);
         this.write(answer);
       }
-      if (!answers.length) this.fail(message, `Novalink answered ${response.status} with no body.`);
+      if (!answers.length) this.fail(message, `Worfilo answered ${response.status} with no body.`);
     } catch (error) {
       if (expectsAnswer) this.fail(message, (error as Error).message);
     }
@@ -65,7 +65,7 @@ export class Bridge {
   }
 
   private fail(message: Message, detail: string): void {
-    this.write(JSON.stringify({ jsonrpc: "2.0", id: message.id, error: { code: -32603, message: `Novalink: ${detail}` } }));
+    this.write(JSON.stringify({ jsonrpc: "2.0", id: message.id, error: { code: -32603, message: `Worfilo: ${detail}` } }));
   }
 }
 

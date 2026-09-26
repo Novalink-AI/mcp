@@ -6,9 +6,9 @@ import { checkUrl, serverUrl } from "../src/constants.js";
 
 describe("server URLs", () => {
   it("accepts https anywhere and http only on this machine", () => {
-    expect(serverUrl("https://api.novalink.live/mcp/")).toBe("https://api.novalink.live/mcp");
-    expect(serverUrl(undefined, { NOVALINK_MCP_URL: "http://localhost:8000/mcp" })).toBe("http://localhost:8000/mcp");
-    expect(serverUrl(undefined, { NOVALINK_API_URL: "http://127.0.0.1:8000" })).toBe("http://127.0.0.1:8000/mcp");
+    expect(serverUrl("https://api.worfilo.com/mcp/")).toBe("https://api.worfilo.com/mcp");
+    expect(serverUrl(undefined, { WORFILO_MCP_URL: "http://localhost:8000/mcp" })).toBe("http://localhost:8000/mcp");
+    expect(serverUrl(undefined, { WORFILO_API_URL: "http://127.0.0.1:8000" })).toBe("http://127.0.0.1:8000/mcp");
     expect(() => serverUrl("http://api.example.com/mcp")).toThrow(/https/);
     expect(() => serverUrl("ftp://api.example.com/mcp")).toThrow(/https/);
     expect(() => serverUrl("not a url")).toThrow(/valid URL/);
@@ -28,7 +28,7 @@ describe("server URLs", () => {
 });
 
 describe("opening the browser", () => {
-  const url = "https://api.novalink.live/oauth/authorize?client_id=c&state=s";
+  const url = "https://api.worfilo.com/oauth/authorize?client_id=c&state=s";
 
   it("never goes through a shell", () => {
     expect(browserCommand(url, "win32")).toEqual(["rundll32", ["url.dll,FileProtocolHandler", url]]);

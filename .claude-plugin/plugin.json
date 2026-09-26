@@ -1,13 +1,13 @@
 {
-  "name": "novalink",
-  "version": "0.1.2",
-  "description": "Plan, build, test, publish and integrate Novalink AI workflows from Claude Code: the Novalink MCP server plus the /novalink-workflows skill.",
+  "name": "worfilo",
+  "version": "0.2.0",
+  "description": "Plan, build, test, publish and integrate Worfilo AI workflows from Claude Code: the Worfilo MCP server plus the /worfilo-workflows skill.",
   "author": {
-    "name": "Novalink",
-    "url": "https://novalink.live"
+    "name": "Worfilo",
+    "url": "https://worfilo.com"
   },
-  "homepage": "https://novalink.live/developers/mcp",
-  "repository": "https://github.com/Novalink-AI/mcp",
+  "homepage": "https://worfilo.com/developers/mcp",
+  "repository": "https://github.com/Worfilo/mcp",
   "license": "MIT",
-  "keywords": ["novalink", "workflows", "ai-agents", "mcp"]
+  "keywords": ["worfilo", "workflows", "ai-agents", "mcp"]
 }

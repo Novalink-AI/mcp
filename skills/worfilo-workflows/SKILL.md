@@ -1,11 +1,11 @@
 ---
-name: novalink-workflows
-description: Plan, build, test, publish and integrate Novalink AI workflows into this codebase through the Novalink MCP server. Use when the user wants to automate a task, build an AI agent workflow, or call a Novalink workflow from their code.
+name: worfilo-workflows
+description: Plan, build, test, publish and integrate Worfilo AI workflows into this codebase through the Worfilo MCP server. Use when the user wants to automate a task, build an AI agent workflow, or call a Worfilo workflow from their code.
 ---
 
-# Building Novalink workflows
+# Building Worfilo workflows
 
-Novalink runs AI agent workflows: a trigger, then nodes (agents, app actions, HTTP calls, logic) joined by edges. You build them through the Novalink MCP tools, then call them from the user's code through the public API.
+Worfilo runs AI agent workflows: a trigger, then nodes (agents, app actions, HTTP calls, logic) joined by edges. You build them through the Worfilo MCP tools, then call them from the user's code through the public API.
 
 ## Procedure
 
@@ -16,7 +16,7 @@ Novalink runs AI agent workflows: a trigger, then nodes (agents, app actions, HT
 5. **Test.** Call `run_workflow` on the draft with a realistic `input`. If it fails, read `failed_nodes`, fix the graph, and run again. Runs can call real apps and spend tokens, so say what a test run will do first.
 6. **Publish.** Ask the user, then call `publish_workflow`. It activates the new version by default, which is what the API runs.
 7. **Integrate.**
-   - Call `create_api_key` scoped to this workflow only, and write the key to an untracked env file as `NOVALINK_API_KEY`. Check `.gitignore` covers it, and never print the key back or commit it.
+   - Call `create_api_key` scoped to this workflow only, and write the key to an untracked env file as `WORFILO_API_KEY`. Check `.gitignore` covers it, and never print the key back or commit it.
    - Call `get_integration_snippet` in the codebase's language, then adapt it to the project's HTTP client, types, config loading and error handling.
    - Handle both answers: 200 means finished, and 202 means poll `status_url`.
 8. **Hand over.** Tell the user the workflow name, the `editor_url`, where the call site lives, and which env var to set in each deployment.
@@ -75,4 +75,4 @@ The example shows the shape only. Take each node's exact config fields from `get
 - Confirm the plan before `create_workflow`, and ask before `publish_workflow`, `activate_version` and `create_api_key`.
 - Edit drafts freely. Published versions change only when you publish again.
 - Keep API keys out of source control, logs and chat.
-- If a tool says a permission was not granted, ask the user to reconnect Novalink and allow it.
+- If a tool says a permission was not granted, ask the user to reconnect Worfilo and allow it.

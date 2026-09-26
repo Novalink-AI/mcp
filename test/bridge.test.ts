@@ -10,8 +10,8 @@ import { Bridge, fromEventStream } from "../src/bridge.js";
 const URL_ = "https://api.example/mcp";
 
 function setup(answer: (auth: string, body: Record<string, unknown>) => Response) {
-  const store = new TokenStore(join(mkdtempSync(join(tmpdir(), "novalink-")), "credentials.json"));
-  store.set(URL_, { clientId: "c", accessToken: "nvo_a", refreshToken: "nvr_a", expiresAt: Date.now() + 3_600_000 });
+  const store = new TokenStore(join(mkdtempSync(join(tmpdir(), "worfilo-")), "credentials.json"));
+  store.set(URL_, { clientId: "c", accessToken: "wfa_a", refreshToken: "wfr_a", expiresAt: Date.now() + 3_600_000 });
   const written: string[] = [];
   const fetchFn = (async (input: string | URL | Request, init?: RequestInit) => {
     const url = String(input);
@@ -19,7 +19,7 @@ function setup(answer: (auth: string, body: Record<string, unknown>) => Response
     if (url.includes("oauth-authorization-server")) {
       return Response.json({ authorization_endpoint: "https://api.example/oauth/authorize", token_endpoint: "https://api.example/oauth/token" });
     }
-    if (url.endsWith("/oauth/token")) return Response.json({ access_token: "nvo_b", refresh_token: "nvr_b", expires_in: 3600 });
+    if (url.endsWith("/oauth/token")) return Response.json({ access_token: "wfa_b", refresh_token: "wfr_b", expires_in: 3600 });
     return answer(new Headers(init?.headers).get("authorization") ?? "", JSON.parse(String(init?.body)));
   }) as typeof fetch;
   const bridge = new Bridge(URL_, { fetch: fetchFn, store, open: () => undefined, log: () => undefined }, (line) => written.push(line));
@@ -41,11 +41,11 @@ describe("bridge", () => {
 
   it("refreshes once on 401 and retries", async () => {
     const { bridge, written, store } = setup((auth, body) =>
-      auth === "Bearer nvo_b" ? Response.json({ jsonrpc: "2.0", id: body.id, result: {} }) : new Response(null, { status: 401 }),
+      auth === "Bearer wfa_b" ? Response.json({ jsonrpc: "2.0", id: body.id, result: {} }) : new Response(null, { status: 401 }),
     );
     await bridge.relay({ jsonrpc: "2.0", id: 7, method: "tools/list" });
     expect(JSON.parse(written[0]!).id).toBe(7);
-    expect(store.get(URL_).accessToken).toBe("nvo_b");
+    expect(store.get(URL_).accessToken).toBe("wfa_b");
   });
 
   it("answers with a JSON-RPC error when the server cannot be reached", async () => {

@@ -1,9 +1,9 @@
 {
-  "name": "@novalinkai/mcp",
-  "version": "0.1.2",
-  "description": "Connect Claude Code, Cursor, Antigravity and other coding agents to Novalink, so they can plan, build and integrate workflows.",
+  "name": "@worfilo/mcp",
+  "version": "0.2.0",
+  "description": "Connect Claude Code, Cursor, Antigravity and other coding agents to Worfilo, so they can plan, build and integrate workflows.",
   "keywords": [
-    "novalink",
+    "worfilo",
     "mcp",
     "model-context-protocol",
     "claude-code",
@@ -12,18 +12,18 @@
     "workflows",
     "ai-agents"
   ],
-  "homepage": "https://github.com/Novalink-AI/mcp#readme",
+  "homepage": "https://github.com/Worfilo/mcp#readme",
   "bugs": {
-    "url": "https://github.com/Novalink-AI/mcp/issues"
+    "url": "https://github.com/Worfilo/mcp/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Novalink-AI/mcp.git"
+    "url": "git+https://github.com/Worfilo/mcp.git"
   },
   "license": "MIT",
   "type": "module",
   "bin": {
-    "novalink-mcp": "dist/cli.js"
+    "worfilo-mcp": "dist/cli.js"
   },
   "files": [
     "dist",

@@ -1,15 +1,15 @@
-# Novalink MCP
+# Worfilo MCP
 
-[![npm version](https://img.shields.io/npm/v/@novalinkai/mcp.svg)](https://www.npmjs.com/package/@novalinkai/mcp)
-[![CI](https://github.com/Novalink-AI/mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/Novalink-AI/mcp/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@worfilo/mcp.svg)](https://www.npmjs.com/package/@worfilo/mcp)
+[![CI](https://github.com/Worfilo/mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/Worfilo/mcp/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Connect coding agents to [Novalink](https://novalink.live) so they can design, build, test and ship AI workflows, then integrate them into your codebase.
+Connect coding agents to [Worfilo](https://worfilo.com) so they can design, build, test and ship AI workflows, then integrate them into your codebase.
 
 This repository contains:
 
-- **`@novalinkai/mcp`**: a command-line tool that configures Claude Code, Cursor, Antigravity, VS Code and Windsurf to use the hosted Novalink MCP server. It also includes a local stdio bridge for clients that cannot authenticate to remote servers.
-- **The `novalink-workflows` skill**: guidance that teaches agents the Novalink workflow model, so the workflows they produce validate the first time.
+- **`@worfilo/mcp`**: a command-line tool that configures Claude Code, Cursor, Antigravity, VS Code and Windsurf to use the hosted Worfilo MCP server. It also includes a local stdio bridge for clients that cannot authenticate to remote servers.
+- **The `worfilo-workflows` skill**: guidance that teaches agents the Worfilo workflow model, so the workflows they produce validate the first time.
 - **A Claude Code plugin** that bundles the server configuration and the skill.
 
 ## Contents
@@ -29,7 +29,7 @@ This repository contains:
 
 ## What agents can do
 
-With Novalink connected, you can ask your agent for an automation in plain language, for example "when a support email arrives, classify it and open a Linear issue". The agent then:
+With Worfilo connected, you can ask your agent for an automation in plain language, for example "when a support email arrives, classify it and open a Linear issue". The agent then:
 
 1. **Discovers** the available node types and the apps, credentials, APIs and MCP servers connected to your account.
 2. **Plans** a workflow graph from your description and shows you the steps before saving anything.
@@ -38,11 +38,11 @@ With Novalink connected, you can ask your agent for an automation in plain langu
 5. **Publishes** a version once you approve it.
 6. **Integrates** it: creates an API key limited to that workflow, stores it in your environment file, and adds the API call to your code.
 
-Every workflow created this way is a standard Novalink workflow. You can open it on the canvas, inspect its runs, and edit it like any other.
+Every workflow created this way is a standard Worfilo workflow. You can open it on the canvas, inspect its runs, and edit it like any other.
 
 ## Requirements
 
-- A [Novalink](https://novalink.live) account.
+- A [Worfilo](https://worfilo.com) account.
 - Node.js 20 or later, for the installer and the stdio bridge.
 - One or more supported clients: Claude Code, Cursor, Antigravity, VS Code (agent mode) or Windsurf.
 
@@ -51,19 +51,19 @@ Every workflow created this way is a standard Novalink workflow. You can open it
 Run the installer from the root of your project:
 
 ```sh
-npx @novalinkai/mcp install
+npx @worfilo/mcp install
 ```
 
-The installer detects your editors, adds the Novalink server to each one, and installs the `/novalink-workflows` guide. It writes configuration only, never credentials, so the generated files are safe to commit.
+The installer detects your editors, adds the Worfilo server to each one, and installs the `/worfilo-workflows` guide. It writes configuration only, never credentials, so the generated files are safe to commit.
 
-The first time your agent calls Novalink, a browser window opens. Sign in, review the permissions the agent is requesting, and approve. Then ask your agent to build a workflow, or invoke `/novalink-workflows` directly.
+The first time your agent calls Worfilo, a browser window opens. Sign in, review the permissions the agent is requesting, and approve. Then ask your agent to build a workflow, or invoke `/worfilo-workflows` directly.
 
 The installer runs with any package runner:
 
 ```sh
-pnpm dlx @novalinkai/mcp install
-yarn dlx @novalinkai/mcp install
-bunx @novalinkai/mcp install
+pnpm dlx @worfilo/mcp install
+yarn dlx @worfilo/mcp install
+bunx @worfilo/mcp install
 ```
 
 ## Installation options
@@ -71,41 +71,41 @@ bunx @novalinkai/mcp install
 ### Choose editors and scope
 
 ```sh
-npx @novalinkai/mcp install --client claude-code,cursor   # specific editors
-npx @novalinkai/mcp install --scope user                  # all projects, not only this repository
-npx @novalinkai/mcp install --dry-run                     # preview changes without writing
-npx @novalinkai/mcp uninstall                             # remove the configuration
+npx @worfilo/mcp install --client claude-code,cursor   # specific editors
+npx @worfilo/mcp install --scope user                  # all projects, not only this repository
+npx @worfilo/mcp install --dry-run                     # preview changes without writing
+npx @worfilo/mcp uninstall                             # remove the configuration
 ```
 
 The installer writes to these locations:
 
 | Client | Server configuration | Guide |
 |---|---|---|
-| Claude Code | `.mcp.json`, or `claude mcp add` with `--scope user` | `.claude/skills/novalink-workflows/SKILL.md` |
+| Claude Code | `.mcp.json`, or `claude mcp add` with `--scope user` | `.claude/skills/worfilo-workflows/SKILL.md` |
 | Cursor | `.cursor/mcp.json` | `.cursor/commands/` and `.cursor/rules/` |
 | Antigravity | `~/.gemini/antigravity/mcp_config.json` | `.agent/rules/` and `.agent/workflows/` |
-| VS Code | `.vscode/mcp.json` | `.github/prompts/novalink-workflows.prompt.md` |
+| VS Code | `.vscode/mcp.json` | `.github/prompts/worfilo-workflows.prompt.md` |
 | Windsurf | `~/.codeium/windsurf/mcp_config.json` | `.windsurf/rules/` |
 
 Existing entries in these files are preserved. If a file contains comments and cannot be parsed as plain JSON, the installer leaves it unchanged and prints the entry to add manually.
 
 ### Claude Code plugin
 
-In Claude Code, you can install Novalink as a plugin. The plugin bundles the server configuration and the skill, and updates through the plugin system:
+In Claude Code, you can install Worfilo as a plugin. The plugin bundles the server configuration and the skill, and updates through the plugin system:
 
 ```
-/plugin marketplace add Novalink-AI/mcp
-/plugin install novalink@novalink
+/plugin marketplace add Worfilo/mcp
+/plugin install worfilo@worfilo
 ```
 
 ### Manual configuration
 
-The server endpoint is `https://api.novalink.live/mcp`, using the Streamable HTTP transport with OAuth 2.1.
+The server endpoint is `https://api.worfilo.com/mcp`, using the Streamable HTTP transport with OAuth 2.1.
 
 Claude Code:
 
 ```sh
-claude mcp add --transport http --scope user novalink https://api.novalink.live/mcp
+claude mcp add --transport http --scope user worfilo https://api.worfilo.com/mcp
 ```
 
 Cursor (`.cursor/mcp.json`):
@@ -113,7 +113,7 @@ Cursor (`.cursor/mcp.json`):
 ```json
 {
   "mcpServers": {
-    "novalink": { "url": "https://api.novalink.live/mcp" }
+    "worfilo": { "url": "https://api.worfilo.com/mcp" }
   }
 }
 ```
@@ -123,7 +123,7 @@ VS Code (`.vscode/mcp.json`):
 ```json
 {
   "servers": {
-    "novalink": { "type": "http", "url": "https://api.novalink.live/mcp" }
+    "worfilo": { "type": "http", "url": "https://api.worfilo.com/mcp" }
   }
 }
 ```
@@ -133,7 +133,7 @@ Clients without remote OAuth support can use the stdio bridge:
 ```json
 {
   "mcpServers": {
-    "novalink": { "command": "npx", "args": ["-y", "@novalinkai/mcp@latest", "serve"] }
+    "worfilo": { "command": "npx", "args": ["-y", "@worfilo/mcp@latest", "serve"] }
   }
 }
 ```
@@ -141,18 +141,18 @@ Clients without remote OAuth support can use the stdio bridge:
 ## How it works
 
 ```
-Coding agent --- MCP over HTTPS ---------------------> api.novalink.live/mcp ---> your Novalink account
+Coding agent --- MCP over HTTPS ---------------------> api.worfilo.com/mcp ---> your Worfilo account
       |                                                        ^
-      +--- stdio ---> novalink-mcp serve (local bridge) -------+
+      +--- stdio ---> worfilo-mcp serve (local bridge) -------+
 ```
 
-- **Hosted server.** Novalink runs the MCP server. Your agent connects over HTTPS, and nothing runs on your machine besides your editor, unless you use the bridge.
+- **Hosted server.** Worfilo runs the MCP server. Your agent connects over HTTPS, and nothing runs on your machine besides your editor, unless you use the bridge.
 - **Authentication.** The server is an OAuth 2.1 protected resource (RFC 9728).
   - Clients register dynamically (RFC 7591) and sign in with the authorization code flow and PKCE.
   - Access tokens expire after one hour and refresh automatically.
   - Refresh tokens rotate on every use. Reusing an old refresh token revokes the connection.
-- **Stdio bridge.** `novalink-mcp serve` reads JSON-RPC messages on stdin and relays them to the hosted server. It runs the OAuth flow itself through a loopback redirect and stores tokens locally.
-- **Guide.** The installer puts the `novalink-workflows` skill into each editor in that editor's native format. The server also exposes it as the `design_workflow` prompt for any MCP client.
+- **Stdio bridge.** `worfilo-mcp serve` reads JSON-RPC messages on stdin and relays them to the hosted server. It runs the OAuth flow itself through a loopback redirect and stores tokens locally.
+- **Guide.** The installer puts the `worfilo-workflows` skill into each editor in that editor's native format. The server also exposes it as the `design_workflow` prompt for any MCP client.
 
 ## Tools
 
@@ -188,12 +188,12 @@ You choose the permissions on the consent screen when the agent first connects.
 | `runs:write` | Running workflows and reading their results. |
 | `api_keys:write` | Creating API keys restricted to chosen workflows. |
 
-To review or revoke connected agents, open **API keys > Connected agents** in Novalink. Revocation takes effect immediately.
+To review or revoke connected agents, open **API keys > Connected agents** in Worfilo. Revocation takes effect immediately.
 
 ## CLI reference
 
 ```
-novalink-mcp <command> [options]
+worfilo-mcp <command> [options]
 ```
 
 | Command | Description |
@@ -218,14 +218,14 @@ novalink-mcp <command> [options]
 
 | Environment variable | Description |
 |---|---|
-| `NOVALINK_MCP_URL` | MCP server URL, for example `http://localhost:8000/mcp` |
-| `NOVALINK_API_URL` | API base URL; `/mcp` is appended |
-| `NOVALINK_CONFIG_DIR` | Directory for the bridge's credentials file |
+| `WORFILO_MCP_URL` | MCP server URL, for example `http://localhost:8000/mcp` |
+| `WORFILO_API_URL` | API base URL; `/mcp` is appended |
+| `WORFILO_CONFIG_DIR` | Directory for the bridge's credentials file |
 
 ## Security
 
 - The installer writes server URLs and guides only. It never writes tokens or API keys.
-- The bridge stores tokens in `~/.config/novalink/credentials.json`, or `%APPDATA%\novalink` on Windows, readable only by your user.
+- The bridge stores tokens in `~/.config/worfilo/credentials.json`, or `%APPDATA%\worfilo` on Windows, readable only by your user.
 - On the server, tokens are stored as SHA-256 hashes, and you can revoke any grant from your account.
 - Agents are instructed to keep API keys in untracked environment files, out of source control.
 
@@ -237,22 +237,22 @@ To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
 **A configuration file was not updated.** The installer does not modify files that contain comments. Add the printed entry by hand.
 
-**The agent reports a missing permission.** Reconnect Novalink from your editor and grant the scope named in the message. With the bridge, run `npx @novalinkai/mcp logout`, then `login`.
+**The agent reports a missing permission.** Reconnect Worfilo from your editor and grant the scope named in the message. With the bridge, run `npx @worfilo/mcp logout`, then `login`.
 
-**Connecting to a local or self-hosted deployment.** Set `NOVALINK_MCP_URL`, or pass `--url` to `install`. Server URLs must use https; plain http is accepted only for `localhost`, so tokens are never sent unencrypted.
+**Connecting to a local or self-hosted deployment.** Set `WORFILO_MCP_URL`, or pass `--url` to `install`. Server URLs must use https; plain http is accepted only for `localhost`, so tokens are never sent unencrypted.
 
 ## Development
 
 ```sh
-git clone https://github.com/Novalink-AI/mcp.git
+git clone https://github.com/Worfilo/mcp.git
 cd mcp
 npm ci
 npm test
 npm run build
-NOVALINK_MCP_URL=http://localhost:8000/mcp node dist/cli.js install --dry-run
+WORFILO_MCP_URL=http://localhost:8000/mcp node dist/cli.js install --dry-run
 ```
 
-`skills/novalink-workflows/SKILL.md` is the single source for the guide. The installer, the Claude Code plugin and the Novalink server's `design_workflow` prompt all derive from it.
+`skills/worfilo-workflows/SKILL.md` is the single source for the guide. The installer, the Claude Code plugin and the Worfilo server's `design_workflow` prompt all derive from it.
 
 ### Releasing
 

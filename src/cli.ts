@@ -13,10 +13,10 @@ import { DOCS_URL, PACKAGE, SERVER_NAME, VERSION, log, serverUrl } from "./const
 import { ConfigError, readJson, remove, withServer, withoutServer, writeJson, writeText } from "./files.js";
 import { loadSkill } from "./skill.js";
 
-const HELP = `${PACKAGE} ${VERSION}: connect coding agents to Novalink
+const HELP = `${PACKAGE} ${VERSION}: connect coding agents to Worfilo
 
 Usage
-  npx ${PACKAGE} install [options]    Add Novalink and the /novalink-workflows guide to your editors
+  npx ${PACKAGE} install [options]    Add Worfilo and the /worfilo-workflows guide to your editors
   npx ${PACKAGE} uninstall [options]  Remove them again
   npx ${PACKAGE} login                Sign in for the local bridge
   npx ${PACKAGE} logout               Sign out and revoke the bridge's tokens
@@ -27,9 +27,9 @@ Usage
 Options
   --client <ids>   ${CLIENT_IDS.join(", ")} (comma separated; default: detected)
   --scope <scope>  project (this repo, default) or user (every project)
-  --url <url>      MCP server URL (default: NOVALINK_MCP_URL, NOVALINK_API_URL/mcp, or production)
+  --url <url>      MCP server URL (default: WORFILO_MCP_URL, WORFILO_API_URL/mcp, or production)
   --bridge         Connect through the local stdio bridge instead of over HTTP
-  --no-skill       Skip the /novalink-workflows guide
+  --no-skill       Skip the /worfilo-workflows guide
   --dry-run        Show what would change without writing anything
   --yes            Do not ask; use detected editors
 
@@ -63,7 +63,7 @@ async function chooseClients(ids: string | undefined, yes: boolean): Promise<Cli
     if (!detected.length) throw new Error(`No supported editor found. Pass --client with one of: ${CLIENT_IDS.join(", ")}.`);
     return detected;
   }
-  log("Which editors should use Novalink?");
+  log("Which editors should use Worfilo?");
   CLIENTS.forEach((client, index) => log(`  ${index + 1}. ${client.name}${detected.includes(client) ? " (detected)" : ""}`));
   const prompt = createInterface({ input: process.stdin, output: process.stderr });
   const fallback = detected.map((client) => CLIENTS.indexOf(client) + 1).join(",");
@@ -132,10 +132,10 @@ async function install(values: Flags, undo: boolean): Promise<void> {
     }
   }
   if (undo) {
-    log(`\nRemoved. To revoke access too, run: npx ${PACKAGE} logout, and disconnect the agent under API keys in Novalink.`);
+    log(`\nRemoved. To revoke access too, run: npx ${PACKAGE} logout, and disconnect the agent under API keys in Worfilo.`);
     return;
   }
-  log(`\nNovalink MCP server: ${url}`);
+  log(`\nWorfilo MCP server: ${url}`);
   for (const note of notes) log(`- ${note}`);
   if (scope === "project") log("- Commit the new files to share the setup with your team; no secrets were written.");
 }

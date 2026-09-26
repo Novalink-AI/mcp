@@ -32,9 +32,9 @@ export interface AuthDeps {
 const REFRESH_MARGIN_MS = 60_000;
 
 export function defaultStorePath(env: NodeJS.ProcessEnv = process.env, platform = process.platform): string {
-  if (env.NOVALINK_CONFIG_DIR) return join(env.NOVALINK_CONFIG_DIR, "credentials.json");
-  if (platform === "win32" && env.APPDATA) return join(env.APPDATA, "novalink", "credentials.json");
-  return join(env.XDG_CONFIG_HOME ?? join(homedir(), ".config"), "novalink", "credentials.json");
+  if (env.WORFILO_CONFIG_DIR) return join(env.WORFILO_CONFIG_DIR, "credentials.json");
+  if (platform === "win32" && env.APPDATA) return join(env.APPDATA, "worfilo", "credentials.json");
+  return join(env.XDG_CONFIG_HOME ?? join(homedir(), ".config"), "worfilo", "credentials.json");
 }
 
 /** Tokens per server URL, in a file only this user can read. */
@@ -140,7 +140,7 @@ function toTokens(clientId: string, body: Record<string, unknown>): Tokens {
 }
 
 const DONE_PAGE = (message: string) =>
-  `<!doctype html><meta charset="utf-8"><title>Novalink</title><body style="font:16px system-ui;padding:3rem;max-width:32rem;margin:auto"><h1 style="font-size:1.25rem">${message}</h1><p>You can close this tab and return to your editor.</p></body>`;
+  `<!doctype html><meta charset="utf-8"><title>Worfilo</title><body style="font:16px system-ui;padding:3rem;max-width:32rem;margin:auto"><h1 style="font-size:1.25rem">${message}</h1><p>You can close this tab and return to your editor.</p></body>`;
 
 /** The authorization code flow with PKCE, finished on a loopback port (RFC 8252). */
 export async function login(url: string, deps: AuthDeps): Promise<Tokens> {
@@ -159,7 +159,7 @@ export async function login(url: string, deps: AuthDeps): Promise<Tokens> {
     const error = query.get("error");
     const ok = !error && query.get("state") === state && query.get("code");
     response.writeHead(ok ? 200 : 400, { "Content-Type": "text/html; charset=utf-8" });
-    response.end(DONE_PAGE(ok ? "Novalink is connected" : "Novalink was not connected"));
+    response.end(DONE_PAGE(ok ? "Worfilo is connected" : "Worfilo was not connected"));
     if (error) settle?.reject(new Error(query.get("error_description") ?? error));
     else if (query.get("state") !== state) settle?.reject(new Error("The sign-in response did not match this request."));
     else settle?.resolve(query.get("code") ?? "");
@@ -176,7 +176,7 @@ export async function login(url: string, deps: AuthDeps): Promise<Tokens> {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          client_name: `Novalink MCP CLI ${VERSION}`,
+          client_name: `Worfilo MCP CLI ${VERSION}`,
           redirect_uris: [redirectUri],
           grant_types: ["authorization_code", "refresh_token"],
           response_types: ["code"],
@@ -200,7 +200,7 @@ export async function login(url: string, deps: AuthDeps): Promise<Tokens> {
     })) {
       authorize.searchParams.set(key, value);
     }
-    deps.log(`Opening your browser to sign in to Novalink. If it does not open, visit:\n${authorize.toString()}`);
+    deps.log(`Opening your browser to sign in to Worfilo. If it does not open, visit:\n${authorize.toString()}`);
     deps.open(authorize.toString());
 
     const timeout = new Promise<never>((_, reject) =>
@@ -242,7 +242,7 @@ export async function refresh(url: string, deps: AuthDeps): Promise<Tokens | und
     deps.store.set(url, tokens);
     return tokens;
   } catch (error) {
-    deps.log(`Could not refresh the Novalink session: ${(error as Error).message}`);
+    deps.log(`Could not refresh the Worfilo session: ${(error as Error).message}`);
     deps.store.set(url, { clientId: stored.clientId }); // keep the registration, drop the dead tokens
     return undefined;
   }

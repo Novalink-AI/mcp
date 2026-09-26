@@ -1,18 +1,18 @@
 {
-  "name": "novalink",
+  "name": "worfilo",
   "owner": {
-    "name": "Novalink",
-    "url": "https://novalink.live"
+    "name": "Worfilo",
+    "url": "https://worfilo.com"
   },
   "metadata": {
-    "description": "Novalink plugins for Claude Code."
+    "description": "Worfilo plugins for Claude Code."
   },
   "plugins": [
     {
-      "name": "novalink",
+      "name": "worfilo",
       "source": "./",
-      "description": "The Novalink MCP server and the /novalink-workflows skill, for building AI workflows from Claude Code.",
-      "version": "0.1.2",
+      "description": "The Worfilo MCP server and the /worfilo-workflows skill, for building AI workflows from Claude Code.",
+      "version": "0.2.0",
       "category": "development"
     }
   ]

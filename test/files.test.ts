@@ -9,13 +9,13 @@ import { ConfigError, readJson, withServer, withoutServer, writeJson } from "../
 describe("config files", () => {
   it("adds a server without touching the others", () => {
     const before = { mcpServers: { github: { url: "https://gh" } }, theme: "dark" };
-    const after = withServer(before, "mcpServers", "novalink", { url: "https://nl" });
-    expect(after).toEqual({ mcpServers: { github: { url: "https://gh" }, novalink: { url: "https://nl" } }, theme: "dark" });
-    expect(withoutServer(after, "mcpServers", "novalink")).toEqual(before);
+    const after = withServer(before, "mcpServers", "worfilo", { url: "https://nl" });
+    expect(after).toEqual({ mcpServers: { github: { url: "https://gh" }, worfilo: { url: "https://nl" } }, theme: "dark" });
+    expect(withoutServer(after, "mcpServers", "worfilo")).toEqual(before);
   });
 
   it("reads missing and empty files as empty, and refuses JSON with comments", () => {
-    const dir = mkdtempSync(join(tmpdir(), "novalink-"));
+    const dir = mkdtempSync(join(tmpdir(), "worfilo-"));
     expect(readJson(join(dir, "missing.json"))).toEqual({});
     writeFileSync(join(dir, "empty.json"), "  ");
     expect(readJson(join(dir, "empty.json"))).toEqual({});
@@ -24,7 +24,7 @@ describe("config files", () => {
   });
 
   it("writes nested paths with a trailing newline", () => {
-    const path = join(mkdtempSync(join(tmpdir(), "novalink-")), "a", "b", "mcp.json");
+    const path = join(mkdtempSync(join(tmpdir(), "worfilo-")), "a", "b", "mcp.json");
     writeJson(path, { servers: {} });
     expect(readFileSync(path, "utf8")).toBe('{\n  "servers": {}\n}\n');
   });

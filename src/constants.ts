@@ -1,9 +1,9 @@
-export const PACKAGE = "@novalinkai/mcp";
-export const VERSION = "0.1.2";
-export const SERVER_NAME = "novalink";
-export const SKILL_NAME = "novalink-workflows";
-export const DEFAULT_URL = "https://api.novalink.live/mcp";
-export const DOCS_URL = "https://novalink.live/developers/mcp";
+export const PACKAGE = "@worfilo/mcp";
+export const VERSION = "0.2.0";
+export const SERVER_NAME = "worfilo";
+export const SKILL_NAME = "worfilo-workflows";
+export const DEFAULT_URL = "https://api.worfilo.com/mcp";
+export const DOCS_URL = "https://worfilo.com/developers/mcp";
 
 const LOOPBACK_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 // characters a shell or cmd.exe would act on; no MCP or sign-in URL needs them
@@ -31,14 +31,14 @@ export function checkUrl(value: string, what = "URL", strict = true): string {
   return value;
 }
 
-/** The MCP endpoint: --url, then NOVALINK_MCP_URL, then NOVALINK_API_URL plus /mcp, then production. */
+/** The MCP endpoint: --url, then WORFILO_MCP_URL, then WORFILO_API_URL plus /mcp, then production. */
 export function serverUrl(flag?: string, env: NodeJS.ProcessEnv = process.env): string {
   let url = DEFAULT_URL;
   if (flag) url = flag.replace(/\/$/, "");
-  else if (env.NOVALINK_MCP_URL) url = env.NOVALINK_MCP_URL.replace(/\/$/, "");
-  else if (env.NOVALINK_API_URL) url = `${env.NOVALINK_API_URL.replace(/\/$/, "")}/mcp`;
+  else if (env.WORFILO_MCP_URL) url = env.WORFILO_MCP_URL.replace(/\/$/, "");
+  else if (env.WORFILO_API_URL) url = `${env.WORFILO_API_URL.replace(/\/$/, "")}/mcp`;
   // strict: install hands it to a shell on Windows, and the bridge sends tokens to it
-  return checkUrl(url, "The Novalink server URL");
+  return checkUrl(url, "The Worfilo server URL");
 }
 
 /** Log to stderr: in bridge mode stdout carries the protocol. */

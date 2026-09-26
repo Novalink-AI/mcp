@@ -16,7 +16,7 @@ export function parseSkill(raw: string): Skill {
 
 // resolves from dist/cli.js and from src/ alike, since both sit one level below the package root
 export function loadSkill(): Skill {
-  return parseSkill(readFileSync(new URL("../skills/novalink-workflows/SKILL.md", import.meta.url), "utf8"));
+  return parseSkill(readFileSync(new URL("../skills/worfilo-workflows/SKILL.md", import.meta.url), "utf8"));
 }
 
 const frontmatter = (fields: Record<string, string | boolean>) =>
